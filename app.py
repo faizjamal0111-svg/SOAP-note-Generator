@@ -33,10 +33,15 @@ with output_col:
     st.subheader("Generated note")
     if generate and encounter.strip():
         with st.spinner("Generating..."):
-            note = generate_soap_note(encounter,temperature)
-        st.markdown(note)
-        st.download_button("Download", note, file_name="soap_note.txt")
+            try:                             
+               note = generate_soap_note(encounter,temperature)            
+               st.markdown(note)
+               st.download_button("Download", note, file_name="soap_note.txt")
+            except Exception as e:
+                st.error(f'Something went wrong: {e}')
+
     elif generate:
         st.warning("Please enter some notes first.")
     else:
         st.info("Your SOAP note will appear here.")
+        
